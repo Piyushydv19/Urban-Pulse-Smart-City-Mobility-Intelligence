@@ -178,7 +178,8 @@ A dedicated measure table is used to organize analytical calculations.
 
 Example measures include:
 
-```DAX
+## DAX Measures
+
 Total Searches =
 SUM(Fact_RideHailing_Ward[Searches])
 
@@ -187,19 +188,23 @@ SUM(Fact_RideHailing_Ward[Bookings])
 
 Additional DAX measures and KPIs are used across the different dashboard areas to support analytical insights.
 
-Dashboards
-Traffic Dashboard
+---
+
+## Dashboards
+
+### Traffic Dashboard
 
 The Traffic Dashboard provides an overview of Bengaluru's traffic conditions and patterns.
 
 It focuses on:
 
-Traffic analysis
-Congestion
-Location-based insights
-Traffic KPIs
-Mobility patterns
-Reliability Dashboard
+- Traffic analysis
+- Congestion
+- Location-based insights
+- Traffic KPIs
+- Mobility patterns
+
+### Reliability Dashboard
 
 The Reliability Dashboard focuses on public-transport service performance and reliability.
 
@@ -207,31 +212,31 @@ It provides insights into transit operations using route, trip, stop, and timing
 
 The dashboard helps understand how reliably public transportation services operate across the network.
 
-Mobility Dashboard
+### Mobility Dashboard
 
 The Mobility Dashboard provides a broader view of Bengaluru's transportation ecosystem.
 
 It brings together important mobility indicators and helps understand overall urban transportation patterns.
 
-Ride Hailing Dashboard
+### Ride Hailing Dashboard
 
 The Ride Hailing Dashboard analyzes Namma Yatri activity across Bengaluru.
 
 It includes:
 
-Searches
-Bookings
-Completed trips
-Cancellations
-Conversion rates
-Driver earnings
-Average fare
-Average distance
-Ward-wise performance
+- Searches
+- Bookings
+- Completed trips
+- Cancellations
+- Conversion rates
+- Driver earnings
+- Average fare
+- Average distance
+- Ward-wise performance
 
 This dashboard provides a clear view of ride-hailing demand and performance across different wards.
 
-Geospatial Dashboard
+### Geospatial Dashboard
 
 The Geospatial Dashboard focuses on location-based analysis of Bengaluru's mobility data.
 
@@ -239,80 +244,105 @@ It uses geographic information and map-based visualizations to identify spatial 
 
 This helps transform mobility data into location-based insights that are easier to understand and analyze.
 
-Power BI Workflow
+---
+
+## Power BI Workflow
 
 The overall project workflow is:
 
-Source Datasets → Power Query → Data Cleaning & Transformation → Power BI Data Model → Relationships → DAX Measures → Interactive Dashboards
+`Source Datasets → Power Query → Data Cleaning & Transformation → Power BI Data Model → Relationships → DAX Measures → Interactive Dashboards`
 
 Power BI Import Mode is used to provide an efficient environment for working with the project's datasets and dashboards.
 
-Key Features
-Interactive Power BI dashboards
-Power Query-based ETL
-Structured data modelling
-Star-schema-oriented design
-DAX-based KPIs and measures
-Traffic analysis
-Public-transport analysis
-Reliability analysis
-Ride-hailing analysis
-Geospatial analysis
-Road-safety analysis
-Demographic context
-Ward-level mobility analysis
-Interactive filtering and visualization
-Technology Stack
-Power BI Desktop -- Data modelling, dashboards, visualization and analytics
-Power Query -- Data cleaning, transformation and ETL
-DAX -- Measures, KPIs and analytical calculations
-GTFS -- Public-transit data
-Namma Yatri -- Ride-hailing data
-Open-Meteo -- Weather data where applicable
-GitHub -- Project repository and collaboration
-Team Workflow
+---
+
+## Key Features
+
+- Interactive Power BI dashboards
+- Power Query-based ETL
+- Structured data modelling
+- Star-schema-oriented design
+- DAX-based KPIs and measures
+- Traffic analysis
+- Public-transport analysis
+- Reliability analysis
+- Ride-hailing analysis
+- Geospatial analysis
+- Road-safety analysis
+- Demographic context
+- Ward-level mobility analysis
+- Interactive filtering and visualization
+
+---
+
+## Technology Stack
+
+- **Power BI Desktop** -- Data modelling, dashboards, visualization and analytics
+- **Power Query** -- Data cleaning, transformation and ETL
+- **DAX** -- Measures, KPIs and analytical calculations
+- **GTFS** -- Public-transit data
+- **Namma Yatri** -- Ride-hailing data
+- **Open-Meteo** -- Weather data where applicable
+- **GitHub** -- Project repository and collaboration
+
+---
+
+## Team Workflow
 
 The project is maintained through a master Power BI file containing the datasets, data model, relationships, measures, and dashboards.
 
 The team workflow includes:
 
-Maintaining the latest master PBIX file.
-Working on assigned dashboard areas.
-Maintaining consistent data modelling and Power Query transformations.
-Developing and validating DAX measures.
-Integrating completed dashboard pages into the master report.
-Preparing the final Power BI report for presentation.
-Current Project Status
-Data Engineering
-Data collection: Completed
-Data cleaning and transformation: Completed
-Schema standardization: Completed
-Data modelling: Completed
-Power BI relationships: Completed
-DAX measures: Completed
-Power BI model validation: Completed
-Ride-hailing integration: Completed
-Visualization
-Traffic Dashboard: Developed
-Reliability Dashboard: Developed
-Mobility Dashboard: Developed
-Ride Hailing Dashboard: Developed
-Geospatial Dashboard: Developed
+- Maintaining the latest master PBIX file.
+- Working on assigned dashboard areas.
+- Maintaining consistent data modelling and Power Query transformations.
+- Developing and validating DAX measures.
+- Integrating completed dashboard pages into the master report.
+- Preparing the final Power BI report for presentation.
+
+---
+
+## Current Project Status
+
+### Data Engineering
+
+- Data collection: **Completed**
+- Data cleaning and transformation: **Completed**
+- Schema standardization: **Completed**
+- Data modelling: **Completed**
+- Power BI relationships: **Completed**
+- DAX measures: **Completed**
+- Power BI model validation: **Completed**
+- Ride-hailing integration: **Completed**
+
+### Visualization
+
+- Traffic Dashboard: **Developed**
+- Reliability Dashboard: **Developed**
+- Mobility Dashboard: **Developed**
+- Ride Hailing Dashboard: **Developed**
+- Geospatial Dashboard: **Developed**
 
 The project is focused on refining the dashboards, improving visual presentation, and preparing the final report for demonstration.
 
-Future Enhancements
-Improve dashboard interactivity and user experience.
-Add additional mobility KPIs and analytical measures.
-Enhance geospatial visualizations.
-Expand mobility analysis with additional datasets.
-Add automated data refresh where applicable.
-Continue improving Power BI Service deployment and sharing.
-Enhance the platform with additional Smart City mobility insights.
-Project Highlights
+---
 
-Urban Pulse demonstrates how multiple urban mobility datasets can be transformed into a structured business intelligence solution using Power BI.
+## Future Enhancements
 
-The project combines data engineering, Power Query transformation, data modelling, DAX analytics, and interactive visualization to create a Smart City mobility platform for Bengaluru.
+- Improve dashboard interactivity and user experience.
+- Add additional mobility KPIs and analytical measures.
+- Enhance geospatial visualizations.
+- Expand mobility analysis with additional datasets.
+- Add automated data refresh where applicable.
+- Continue improving Power BI Service deployment and sharing.
+- Enhance the platform with additional Smart City mobility insights.
 
-The dashboards provide a comprehensive view of traffic, public transport reliability, overall mobility, ride-hailing activity, road safety, and geospatial mobility patterns, turning raw mobility data into meaningful and actionable insights.
+---
+
+## Project Highlights
+
+**Urban Pulse** demonstrates how multiple urban mobility datasets can be transformed into a structured business intelligence solution using Power BI.
+
+The project combines **data engineering, Power Query transformation, data modelling, DAX analytics, and interactive visualization** to create a Smart City mobility platform for Bengaluru.
+
+The dashboards provide a comprehensive view of **traffic, public transport reliability, overall mobility, ride-hailing activity, road safety, and geospatial mobility patterns**, turning raw mobility data into meaningful and actionable insights.
