@@ -2,449 +2,317 @@
 
 ## Overview
 
-**Urban Pulse** is a data engineering and business intelligence project
-focused on Bengaluru urban mobility. The project integrates multiple
-mobility-related datasets, cleans and transforms them, models them using
-a Power BI star-schema approach, and prepares the data for interactive
-dashboards.
+**Urban Pulse** is a Power BI-based Smart City Mobility Intelligence Platform focused on understanding Bengaluru's urban mobility through data-driven analysis and interactive dashboards.
 
-The current implementation uses **Power BI** for ETL, data modelling,
-relationships, DAX measures, and visualization. A **MySQL storage layer
-is being integrated** so that the cleaned datasets can be stored
-centrally and Power BI can consume the database tables instead of
-relying only on local files.
+The project brings together multiple mobility-related datasets, transforms and prepares them using **Power Query**, builds a structured Power BI data model, creates analytical measures using **DAX**, and presents meaningful insights through interactive dashboards.
 
-> **Important:** MySQL should be described as implemented only after the
-> Power BI model has actually been connected to the MySQL database. The
-> existing PBIX was originally built from imported datasets using Power
-> Query.
+The platform provides a unified view of Bengaluru's mobility ecosystem, helping analyze traffic, public transport, reliability, ride-hailing, and geospatial mobility patterns.
 
-------------------------------------------------------------------------
+---
 
 ## Project Objectives
 
--   Integrate heterogeneous Bengaluru mobility datasets.
--   Perform ETL and data quality checks.
--   Standardize schemas and data types.
--   Build fact and dimension tables.
--   Create relationships suitable for Power BI analysis.
--   Create reusable DAX measures.
--   Support traffic, transit, weather, road-safety, demographic, and
-    ride-hailing analysis.
--   Build an executive-level Smart City Mobility dashboard.
+- Analyze Bengaluru's urban mobility using real-world datasets.
+- Clean and transform data using Power Query.
+- Build a structured and scalable Power BI data model.
+- Create relationships between relevant datasets.
+- Develop reusable DAX measures and KPIs.
+- Identify mobility patterns and performance trends.
+- Provide interactive and easy-to-understand dashboards.
+- Support data-driven understanding of Bengaluru's transportation system.
 
-------------------------------------------------------------------------
+---
 
-## Data Sources / Domains
+## Data Domains
 
-### 1. BMTC Public Transit (GTFS)
+### 1. BMTC Public Transit
 
-Used for Bengaluru public transport analysis.
+The project uses Bengaluru Metropolitan Transport Corporation (BMTC) public-transit data for analyzing routes, trips, stops, service information, and transit operations.
 
-Main GTFS entities include:
+The transit data includes information related to:
 
--   Agency
--   Routes
--   Trips
--   Stops
--   Stop Times
--   Calendar / Service information
--   Shapes
+- Routes
+- Trips
+- Stops
+- Stop Times
+- Agencies
+- Service calendars
+- Shapes
 
-In the Power BI model, `Fact_Trips` acts as the primary transit fact
-table, supported by `Fact_StopTimes`.
+This data supports public-transport and reliability analysis.
 
-### 2. Traffic Data
+---
 
-Used for traffic and congestion-related analysis in Bengaluru.
+### 2. Traffic
 
-The traffic data supports the **Traffic Dashboard** and can be connected
-to the common date dimension when a valid date field is available.
+Traffic data is used to understand traffic conditions and mobility patterns across Bengaluru.
 
-### 3. Weather Data
+The Traffic Dashboard provides insights into:
 
-Weather data was collected using **Open-Meteo**.
+- Traffic patterns
+- Congestion
+- Location-based traffic analysis
+- Traffic-related KPIs
+- Mobility trends
 
-It can support analysis of:
+The dashboard helps provide a clear overview of traffic conditions across different areas.
 
--   Temperature
--   Rainfall / precipitation
--   Wind
--   Weather conditions
--   Date-wise weather trends
+---
 
-Weather API integration can also be used later for current/live weather
-information.
+### 3. Road Safety
 
-### 4. Road Safety / Accident Data
+Bengaluru Traffic Police accident data is used for road-safety analysis.
 
-Bengaluru Traffic Police station-wise accident data is used for
-road-safety analysis.
+The analysis includes:
 
-It supports:
+- Accident totals
+- Fatal and non-fatal incidents
+- Police-station-wise analysis
+- Zone-wise analysis
+- Sub-division analysis
+- Accident hotspot identification
 
--   Accident totals
--   Fatal/non-fatal analysis
--   Police-station-wise analysis
--   Zone/sub-division analysis
--   Accident hotspot identification
+Geographic information is used to understand how road-safety patterns vary across Bengaluru.
 
-### 5. Demographics
+---
 
-Demographic data is used to understand the population context of
-Bengaluru and support demographic dashboard analysis.
+### 4. Demographics
 
-Depending on the source granularity, demographic information is modelled
-using district/demographic tables.
+Demographic data is used to provide population and geographic context for mobility analysis.
 
-### 6. Ride Hailing -- Namma Yatri
+This helps understand mobility patterns alongside demographic characteristics of different areas.
 
-The Namma Yatri dataset provides **ward-level aggregated ride-hailing
-statistics** for Bengaluru.
+---
 
-Available metrics include:
+### 5. Ride Hailing -- Namma Yatri
 
--   Ward
--   Searches
--   Searches which got estimates
--   Searches for quotes
--   Searches which got quotes
--   Bookings
--   Completed trips
--   Search-to-estimate rate
--   Estimate-to-search-for-quotes rate
--   Quote acceptance rate
--   Quote-to-booking rate
--   Cancelled bookings
--   Booking cancellation rate
--   Conversion rate
--   Drivers' earnings
--   Average distance per trip
--   Average fare per trip
--   Distance travelled
+The Namma Yatri dataset provides ward-level ride-hailing information for Bengaluru.
 
-### Ride-Hailing Date Limitation
+The analysis includes:
 
-The available Namma Yatri dataset is **aggregated by ward** and does not
-contain a Date or Timestamp field.
+- Searches
+- Estimates
+- Quotes
+- Bookings
+- Completed trips
+- Cancelled bookings
+- Conversion rates
+- Booking cancellation rates
+- Driver earnings
+- Average fare
+- Average distance
+- Distance travelled
+- Ward-wise performance
 
-Therefore:
+The Ride Hailing Dashboard provides an overview of user demand, booking activity, trip completion, driver earnings, and ward-level mobility performance.
 
--   It is **not connected to `Dim_Date`**.
--   A fake date was not created.
--   It is connected through `Dim_Ward`.
--   Time-series ride-hailing analysis cannot be performed with this
-    particular source.
+---
 
-This decision preserves data integrity.
+## ETL and Data Transformation
 
-### 7. Bike Sharing
+The project uses **Power Query in Power BI** for data preparation and transformation.
 
-A suitable authentic Bengaluru bike-sharing trip dataset with the
-required coverage was not available during the current implementation.
+The major steps include:
 
-Rather than mixing data from another city or fabricating records,
-bike-sharing has been left as a possible future extension.
+1. Importing source datasets.
+2. Inspecting and understanding the data.
+3. Cleaning unnecessary or inconsistent data.
+4. Handling missing values.
+5. Removing duplicate records where required.
+6. Standardizing column names.
+7. Correcting data types.
+8. Transforming and preparing datasets for analysis.
+9. Creating fact and dimension structures.
+10. Loading the transformed data into the Power BI model.
 
-------------------------------------------------------------------------
+This workflow ensures that the datasets are organized and ready for reliable analysis and visualization.
 
-## ETL Workflow
+---
 
-The datasets were processed using **Power Query in Power BI**.
+## Power BI Data Model
 
-Typical ETL steps included:
+The project follows a structured, star-schema-oriented approach for organizing the data.
 
-1.  Importing source files.
-2.  Inspecting column names and data types.
-3.  Removing unnecessary columns where required.
-4.  Checking duplicate records.
-5.  Handling missing/null values according to analytical importance.
-6.  Standardizing column names and formats.
-7.  Correcting numeric, date, time, and text data types.
-8.  Creating dimension/fact structures.
-9.  Loading transformed queries into the Power BI data model.
-10. Creating and validating relationships.
-11. Creating reusable DAX measures.
+### Transit Tables
 
-### Null Value Handling
+- `Fact_Trips`
+- `Fact_StopTimes`
+- `Dim_Route`
+- `Dim_Stop`
+- `Dim_Agency`
+- `Dim_Calendar`
+- `Dim_Shapes`
 
-Null values are handled according to the role of the column:
+### Common Tables
 
--   Key/relationship columns are checked carefully because null keys can
-    affect relationships.
--   Missing categorical values may be represented as `Unknown` where
-    appropriate.
--   Missing numeric values may be replaced only when a meaningful
-    business rule exists.
--   Invalid/unusable rows may be removed where necessary.
--   Values are not blindly replaced if doing so could distort the
-    analysis.
-
-------------------------------------------------------------------------
-
-## Power BI Query Mode
-
-The existing Power BI implementation primarily uses **Import Mode**.
-
-The source datasets are processed through **Power Query**, and after
-`Close & Apply`, the queries are loaded into the Power BI semantic model
-as tables.
-
-Workflow:
-
-`Source Dataset → Power Query → Cleaning/Transformation → Power BI Tables → Relationships → DAX Measures → Dashboards`
-
-Import Mode was selected because most project datasets are static or
-periodically refreshed rather than continuously streamed.
-
-------------------------------------------------------------------------
-
-## Data Model
-
-The project uses a star-schema-oriented design with multiple related
-analytical domains.
-
-Important tables include:
-
-### Transit
-
--   `Fact_Trips`
--   `Fact_StopTimes`
--   `Dim_Route`
--   `Dim_Stop`
--   `Dim_Agency`
--   `Dim_Calendar`
--   `Dim_Shapes` / shape-related data where applicable
-
-### Common / Temporal
-
--   `Dim_Date`
-
-### Traffic & Weather
-
--   Traffic fact/data table
--   Weather table
+- `Dim_Date`
 
 ### Road Safety
 
--   Bengaluru Traffic Police station-wise accident table
--   `Dim_Geography`
+- Accident data table
+- `Dim_Geography`
 
-`Dim_Geography` contains fields such as:
+The geography information includes:
 
--   Station
--   Sub-division
--   Zone
+- Station
+- Sub-division
+- Zone
 
 ### Demographics
 
--   `Fact_Demographics`
--   `Dim_District`
+- `Fact_Demographics`
+- `Dim_District`
 
 ### Ride Hailing
 
--   `Fact_RideHailing_Ward`
--   `Dim_Ward`
+- `Fact_RideHailing_Ward`
+- `Dim_Ward`
 
-Relationship:
+The model uses appropriate relationships between dimensions and analytical fact tables to support interactive filtering and dashboard analysis.
 
-`Dim_Ward[Ward] (1) → (*) Fact_RideHailing_Ward[Ward]`
+---
 
-------------------------------------------------------------------------
+## DAX Measures
 
-## Relationship Design
+A dedicated measure table is used to organize analytical calculations.
 
-Relationships are created only where a valid common key exists.
+Example measures include:
 
-General modelling principles:
-
--   Dimension tables are normally on the **one** side.
--   Fact tables are normally on the **many** side.
--   Single-direction filtering is preferred where appropriate.
--   Fact-to-fact relationships are avoided.
--   Relationships are not forced between datasets that have incompatible
-    granularity.
-
-For example, ride-hailing data uses **Ward**, while the road-safety
-geography table uses **Station / Sub-division / Zone**. They are not
-directly connected without an authentic mapping between those geographic
-levels.
-
-------------------------------------------------------------------------
-
-## Measures
-
-A dedicated `Measure_Table` is used to organize DAX measures.
-
-The Measure Table is intentionally not a transactional data table. It
-acts as a central container for measures that calculate values from the
-underlying fact tables.
-
-Example ride-hailing measures include:
-
-``` dax
+```DAX
 Total Searches =
 SUM(Fact_RideHailing_Ward[Searches])
-```
 
-``` dax
 Total Bookings =
 SUM(Fact_RideHailing_Ward[Bookings])
-```
 
-``` dax
-Completed Trips =
-SUM(Fact_RideHailing_Ward[Completed Trips])
-```
+Additional DAX measures and KPIs are used across the different dashboard areas to support analytical insights.
 
-``` dax
-Cancelled Bookings =
-SUM(Fact_RideHailing_Ward[Cancelled Bookings])
-```
+Dashboards
+Traffic Dashboard
 
-``` dax
-Driver Earnings =
-SUM(Fact_RideHailing_Ward[Drivers' Earnings])
-```
+The Traffic Dashboard provides an overview of Bengaluru's traffic conditions and patterns.
 
-Additional measures are created for the other domains as required by the
-dashboards.
+It focuses on:
 
-------------------------------------------------------------------------
+Traffic analysis
+Congestion
+Location-based insights
+Traffic KPIs
+Mobility patterns
+Reliability Dashboard
 
-## Planned Dashboard Pages
+The Reliability Dashboard focuses on public-transport service performance and reliability.
 
-The final Power BI report is organized into the following dashboard
-areas:
+It provides insights into transit operations using route, trip, stop, and timing-related information.
 
-### Executive Dashboard
+The dashboard helps understand how reliably public transportation services operate across the network.
 
-City-level overview and important KPIs from multiple domains.
+Mobility Dashboard
 
-### Traffic Dashboard
+The Mobility Dashboard provides a broader view of Bengaluru's transportation ecosystem.
 
-Traffic patterns, congestion, location-based traffic analysis, and
-related KPIs.
+It brings together important mobility indicators and helps understand overall urban transportation patterns.
 
-### BMTC Dashboard
+Ride Hailing Dashboard
 
-Routes, trips, stops, service information, and public-transit analysis.
+The Ride Hailing Dashboard analyzes Namma Yatri activity across Bengaluru.
 
-### Weather Dashboard
+It includes:
 
-Temperature, precipitation, wind, and weather trends.
+Searches
+Bookings
+Completed trips
+Cancellations
+Conversion rates
+Driver earnings
+Average fare
+Average distance
+Ward-wise performance
 
-### Road Safety Dashboard
+This dashboard provides a clear view of ride-hailing demand and performance across different wards.
 
-Accidents, fatal/non-fatal incidents, station-wise and zone-wise
-analysis.
+Geospatial Dashboard
 
-### Demographics Dashboard
+The Geospatial Dashboard focuses on location-based analysis of Bengaluru's mobility data.
 
-Population and available demographic indicators.
+It uses geographic information and map-based visualizations to identify spatial patterns, hotspots, and differences between areas.
 
-### Ride Hailing Dashboard
+This helps transform mobility data into location-based insights that are easier to understand and analyze.
 
-Namma Yatri searches, bookings, completed trips, cancellations, driver
-earnings, average fare, average distance, and ward-wise performance.
+Power BI Workflow
 
-------------------------------------------------------------------------
+The overall project workflow is:
 
-## MySQL Integration
+Source Datasets → Power Query → Data Cleaning & Transformation → Power BI Data Model → Relationships → DAX Measures → Interactive Dashboards
 
-The target architecture includes **MySQL** as a centralized data-storage
-layer.
+Power BI Import Mode is used to provide an efficient environment for working with the project's datasets and dashboards.
 
-The intended architecture is:
+Key Features
+Interactive Power BI dashboards
+Power Query-based ETL
+Structured data modelling
+Star-schema-oriented design
+DAX-based KPIs and measures
+Traffic analysis
+Public-transport analysis
+Reliability analysis
+Ride-hailing analysis
+Geospatial analysis
+Road-safety analysis
+Demographic context
+Ward-level mobility analysis
+Interactive filtering and visualization
+Technology Stack
+Power BI Desktop -- Data modelling, dashboards, visualization and analytics
+Power Query -- Data cleaning, transformation and ETL
+DAX -- Measures, KPIs and analytical calculations
+GTFS -- Public-transit data
+Namma Yatri -- Ride-hailing data
+Open-Meteo -- Weather data where applicable
+GitHub -- Project repository and collaboration
+Team Workflow
 
-`Raw Datasets / APIs → ETL → MySQL → Power BI → Dashboards`
+The project is maintained through a master Power BI file containing the datasets, data model, relationships, measures, and dashboards.
 
-Once implemented, the MySQL database can contain the cleaned fact and
-dimension tables, and Power BI can connect using:
+The team workflow includes:
 
-`Home → Get Data → MySQL Database`
+Maintaining the latest master PBIX file.
+Working on assigned dashboard areas.
+Maintaining consistent data modelling and Power Query transformations.
+Developing and validating DAX measures.
+Integrating completed dashboard pages into the master report.
+Preparing the final Power BI report for presentation.
+Current Project Status
+Data Engineering
+Data collection: Completed
+Data cleaning and transformation: Completed
+Schema standardization: Completed
+Data modelling: Completed
+Power BI relationships: Completed
+DAX measures: Completed
+Power BI model validation: Completed
+Ride-hailing integration: Completed
+Visualization
+Traffic Dashboard: Developed
+Reliability Dashboard: Developed
+Mobility Dashboard: Developed
+Ride Hailing Dashboard: Developed
+Geospatial Dashboard: Developed
 
-For the current project size, **Import Mode** is suitable even when
-MySQL is used as the source. DirectQuery can be considered when
-near-real-time querying of a frequently changing database is required.
+The project is focused on refining the dashboards, improving visual presentation, and preparing the final report for demonstration.
 
-------------------------------------------------------------------------
+Future Enhancements
+Improve dashboard interactivity and user experience.
+Add additional mobility KPIs and analytical measures.
+Enhance geospatial visualizations.
+Expand mobility analysis with additional datasets.
+Add automated data refresh where applicable.
+Continue improving Power BI Service deployment and sharing.
+Enhance the platform with additional Smart City mobility insights.
+Project Highlights
 
-## Team Workflow
+Urban Pulse demonstrates how multiple urban mobility datasets can be transformed into a structured business intelligence solution using Power BI.
 
-A master PBIX file contains the cleaned datasets, model, relationships,
-and measures.
+The project combines data engineering, Power Query transformation, data modelling, DAX analytics, and interactive visualization to create a Smart City mobility platform for Bengaluru.
 
-Team members should:
-
-1.  Download the latest master PBIX.
-2.  Verify that tables, relationships, and measures are available.
-3.  Work only on their assigned dashboard page.
-4.  Avoid changing existing Power Query transformations, relationships,
-    table names, or measures unless coordinated.
-5.  Return their completed PBIX/dashboard page for final integration.
-
-The final dashboard pages are consolidated into one master Power BI
-report for presentation.
-
-------------------------------------------------------------------------
-
-## Current Project Status
-
-### Data Engineering
-
--   Data collection: **Completed for current scope**
--   Data cleaning and transformation: **Completed**
--   Schema standardization: **Completed**
--   Fact/dimension modelling: **Completed**
--   Power BI relationships: **Completed**
--   DAX measure preparation: **Completed / extended as dashboards
-    require**
--   Power BI model validation: **Completed**
--   Ride-hailing integration: **Completed**
--   MySQL migration/integration: **In Progress**
--   Bike-sharing integration: **Future scope due to source-data
-    limitation**
-
-### Visualization
-
-Dashboard development is the current phase.
-
-------------------------------------------------------------------------
-
-## Technology Stack
-
--   **Power BI Desktop** -- ETL, modelling, DAX, visualization
--   **Power Query** -- Data cleaning and transformation
--   **DAX** -- Measures and analytical calculations
--   **MySQL** -- Centralized database layer being integrated
--   **MySQL Workbench** -- Database management and SQL validation
--   **GTFS** -- BMTC public-transit data format
--   **Open-Meteo** -- Weather data/API source
--   **GitHub** -- Project collaboration and repository management
-
-------------------------------------------------------------------------
-
-## Future Enhancements
-
--   Complete MySQL-backed data pipeline.
--   Automate ingestion from APIs.
--   Add scheduled refresh.
--   Add live/current weather API integration.
--   Add a Bengaluru bike-sharing source if reliable public data becomes
-    available.
--   Add timestamp/time dimensions when suitable time-granular source
-    data is available.
--   Add geographic mapping between wards, traffic zones, and
-    administrative boundaries.
--   Deploy the final report through Power BI Service where
-    licensing/environment permits.
-
-------------------------------------------------------------------------
-
-## Project Note
-
-The project prioritizes **data integrity over forced integration**.
-Tables are related only when valid keys and compatible data granularity
-exist. Where a source lacks fields such as date/timestamp, those
-relationships are intentionally not fabricated.
+The dashboards provide a comprehensive view of traffic, public transport reliability, overall mobility, ride-hailing activity, road safety, and geospatial mobility patterns, turning raw mobility data into meaningful and actionable insights.
